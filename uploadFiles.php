@@ -6,12 +6,11 @@ function saveOnDB($name, $path) {
 	$validate_query = "SELECT `nome`, `path` FROM imagens where nome = '$name' and `path` = '$path'";
 	$result = mysqli_query($conn, $validate_query);
 	
-	
 	if(mysqli_num_rows($result) == 0) { // Ferifica se a imagen já foi cadastrada
 		
 		// Inserção a ser feita no banco
 		$registre_query = "INSERT INTO imagens(nome, `path`)
-		VALUES ('$name', '$path'.'$name')";
+		VALUES ('$name', '$path')";
 		// executamos a query à base de dados e obtemos os valores
 		$result = mysqli_query($conn, $registre_query) or die('MySQL Error:<br>'.mysqli_error($conn));
 	
@@ -38,12 +37,11 @@ if($_FILES['userfile']['name']) {
 		//if the file has passed the test
 		if($valid_file) {
 			//move it to where we want it to be
-			$currentdir = getcwd();
 			$arquivo = $_FILES['userfile']['name'];
-			$target = $currentdir .'/imgs/';
+			$target = 'imgs/'.$arquivo;
 			move_uploaded_file($_FILES['userfile']['tmp_name'], $target);
 
-			if(saveOnDB($arquivo, 'imgs/'.$arquivo)) {	
+			if(saveOnDB($arquivo, 'imgs/'.$arquivo )) {	
 				echo "<script>
 						alert('Imagem Cadastrada com sucesso!');
 						window.location = 'index.php';
